@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ model.name }} - TrueModel{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="page-header bg-primary text-white py-5 mb-5" style="background: linear-gradient(rgba(10, 14, 23, 0.8), rgba(26, 42, 74, 0.9));">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>{{ model.name }}</h1>
+                <p class="lead">Explore {{ model.name }}'s complete gallery of hyper-realistic images</p>
+                <a href="{{ url_for('virtual_models_page') }}" class="btn btn-outline-light mt-3">
+                    <i class="fas fa-arrow-left me-2"></i> Back to All Models
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Model Gallery Section -->
+<section class="model-gallery section-padding">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2 class="section-title text-center">{{ model.name }}'s Gallery</h2>
+                <p class="lead text-center mb-5">{{ model.description }}</p>
+            </div>
+        </div>
+        
+        <div class="gallery-grid">
+            {% for image in model.images %}
+            <div class="gallery-item">
+                <img src="{{ image }}" alt="{{ model.name }} Image {{ loop.index }}" class="img-fluid">
+                <div class="gallery-overlay">
+                    <div class="gallery-info">
+                        <h5>{{ model.name }} - Image {{ loop.index }}</h5>
+                        <p>Click to enlarge</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta section-padding" style="background: linear-gradient(rgba(10, 14, 23, 0.9), rgba(26, 42, 74, 0.9));">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2>Want to Use {{ model.name }} in Your Project?</h2>
+                <p class="lead mb-4">Get started today and bring your vision to life with our high-quality, customized visuals featuring {{ model.name }}.</p>
+                <div class="cta-buttons">
+                    <a href="{{ url_for('contact') }}" class="btn cosmic-btn btn-lg me-3">Contact Us</a>
+                    <a href="{{ url_for('pricing') }}" class="btn btn-outline-light btn-lg">View Pricing</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - TrueModel{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="page-header bg-primary text-white py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>Contact Us</h1>
+                <p class="lead">Get in touch to discuss your custom AI image generation needs</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section section-padding">
+    <div class="container">
+        {% if request.args.get('success') %}
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert">
+                    Thank you for your message! We'll get back to you as soon as possible.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="row">
+            <div class="col-lg-5 mb-5 mb-lg-0">
+                <h2 class="mb-4">Get In Touch</h2>
+                <p class="lead mb-4">Have questions or ready to start your project? We're here to help. Fill out the form or reach out to us directly through any of our contact channels.</p>
+                
+                <div class="contact-info mb-4">
+                    <h5><i class="fas fa-envelope"></i> Email</h5>
+                    <p>info@truemodel.ai</p>
+                </div>
+
+                <div class="contact-info mb-4">
+                    <h5><i class="fab fa-telegram"></i> Telegram</h5>
+                    <p><a href="https://t.me/Wizard_47" target="_blank">@Wizard_47</a></p>
+                </div>
+                
+                <div class="social-links mt-5">
+                    <h5 class="mb-3">Connect With Us</h5>
+                    <a href="https://t.me/Wizard_47" class="me-3 social-icon" target="_blank">
+                        <i class="fab fa-telegram fa-2x"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/company/truemodel" class="me-3 social-icon" target="_blank">
+                        <i class="fab fa-linkedin fa-2x"></i>
+                    </a>
+                    <a href="{{ social_links.instagram }}" class="me-3 social-icon" target="_blank">
+                        <i class="fab fa-instagram fa-2x"></i>
+                    </a>
+                    <a href="{{ social_links.gmail }}" class="me-3 social-icon" target="_blank">
+                        <i class="fas fa-envelope fa-2x"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-7">
+                <div class="contact-form-container p-4 bg-white shadow-sm rounded">
+                    <h3 class="mb-4 text-dark">Send Us a Message</h3>
+                    <form id="contactForm" class="contact-form text-dark" action="{{ url_for('contact') }}" method="POST" novalidate>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label text-dark">Full Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                                <div class="invalid-feedback">
+                                    Please provide your name.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label text-dark">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid email address.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label text-dark">Subject</label>
+                            <input type="text" class="form-control" id="subject" name="subject" required>
+                            <div class="invalid-feedback">
+                                Please provide a subject.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label text-dark">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                            <div class="invalid-feedback">
+                                Please provide your message.
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="requirements" class="form-label text-dark">Project Requirements (Optional)</label>
+                            <textarea class="form-control" id="requirements" name="requirements" rows="4" placeholder="Please describe your project needs, number of images, style preferences, etc."></textarea>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                            <label class="form-check-label text-dark" for="termsCheck">I agree to the <a href="#">Terms and Conditions</a></label>
+                            <div class="invalid-feedback">
+                                You must agree before submitting.
+                            </div>
+                        </div>
+                        <button type="submit" class="btn cosmic-btn btn-lg">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq bg-light section-padding">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-12 text-center">
+                <h2>Frequently Asked Questions</h2>
+                <p class="lead">Quick answers to common questions</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="accordion" id="contactFAQ">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                How quickly can I expect a response?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                We typically respond to all inquiries within 24 hours during business days.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                What information should I include in my initial inquiry?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                To help us provide you with the most accurate quote and information, please include details about your project needs, including the number of images, style preferences, intended use, and any specific requirements or deadlines.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Can I schedule a consultation call?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                Yes, we offer free consultation calls to discuss your project needs. You can request a call in your message, and we'll arrange a convenient time for you.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Are my project details kept confidential?
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#contactFAQ">
+                            <div class="accordion-body">
+                                Absolutely. All project details and communications are kept strictly confidential. We respect your privacy and intellectual property.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

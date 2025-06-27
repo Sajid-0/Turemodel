@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Other Niches - TrueModel{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="page-header bg-primary text-white py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>Other Niches</h1>
+                <p class="lead">Explore the versatility of our AI-generated images across various industries</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Section -->
+<section class="other-niches-gallery section-padding">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-12 text-center">
+                <h2 class="mb-4">No Niche is Off-Limits</h2>
+                <p class="lead">We've built our service to be incredibly flexible, catering to any industry you can think of. Here are some examples of what we can create:</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            {% for image in photos %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="gallery-item">
+                    <img src="{{ image }}" alt="Niche Example {{ loop.index }}" class="img-fluid">
+                    <div class="gallery-caption">
+                        <p>Click to view full size</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Industry Section -->
+<section class="industries bg-light section-padding">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-12 text-center">
+                <h2>Industries We Serve</h2>
+                <p class="lead">Our AI-generated images are perfect for a wide range of industries</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-shopping-cart text-primary me-2"></i> E-commerce</h5>
+                        <p class="card-text">Product images, lifestyle shots, and promotional materials without the need for physical photoshoots.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-ad text-primary me-2"></i> Advertising</h5>
+                        <p class="card-text">Eye-catching visuals for campaigns, billboards, and digital advertisements.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-tshirt text-primary me-2"></i> Fashion</h5>
+                        <p class="card-text">Clothing and accessories photoshoots with stunning models or visuals.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-film text-primary me-2"></i> Entertainment</h5>
+                        <p class="card-text">Create AI influencers, virtual models, or characters for your projects.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-home text-primary me-2"></i> Real Estate</h5>
+                        <p class="card-text">Staging images, property visuals, and architectural renderings.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-book text-primary me-2"></i> Publishing</h5>
+                        <p class="card-text">Book covers, illustrations, and editorial images for magazines and websites.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2>Ready to Create Custom Images for Your Industry?</h2>
+                <p class="lead mb-4">No matter your niche, we can deliver hyper-realistic images tailored to your specific needs.</p>
+                <div class="cta-buttons">
+                    <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg me-3">Contact Us</a>
+                    <a href="{{ url_for('pricing') }}" class="btn btn-outline-primary btn-lg">View Pricing</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Virtual Models - TrueModel{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="page-header bg-primary text-white py-5 mb-5" style="background: linear-gradient(rgba(10, 14, 23, 0.8), rgba(26, 42, 74, 0.9));">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>Virtual Models Gallery</h1>
+                <p class="lead">Explore our collection of hyper-realistic virtual models for your next project</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Models Gallery Section -->
+<section class="virtual-models-gallery section-padding">
+    <div class="container">
+        <div class="row">
+            {% for model_id, model in virtual_models.items() %}
+            <div class="col-lg-6 col-md-6 mb-5">
+                <div class="model-card">
+                    <img src="{{ model.images[0] }}" alt="{{ model.name }}" class="img-fluid">
+                    <div class="model-card-overlay">
+                        <h3>{{ model.name }}</h3>
+                        <p>{{ model.description | truncate(80) }}</p>
+                        <p class="model-image-count"><i class="fas fa-images me-2"></i> {{ model.images|length }} images available</p>
+                        <a href="{{ url_for('virtual_model_detail', model_id=model_id) }}" class="btn cosmic-btn">View All Images</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta section-padding" style="background: linear-gradient(rgba(10, 14, 23, 0.9), rgba(26, 42, 74, 0.9));">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2>Need a Custom Virtual Model?</h2>
+                <p class="lead mb-4">We can create custom virtual models tailored to your specific requirements. Contact us to discuss your project needs.</p>
+                <a href="{{ url_for('contact') }}" class="btn cosmic-btn btn-lg">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

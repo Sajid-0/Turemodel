@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Real vs Generated Comparison - TrueModel{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="page-header bg-primary text-white py-5 mb-5" style="background: linear-gradient(rgba(10, 14, 23, 0.8), rgba(26, 42, 74, 0.9)), url('https://i.postimg.cc/JhGBPsbn/image-2025-06-27-T193126-695.png'); background-size: cover; background-position: center;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1 class="glow-text">Real vs Generated Photos</h1>
+                <p class="lead">Compare our AI-generated models with real-world photography</p>
+                <div class="mt-4">
+                    <a href="{{ url_for('contact') }}" class="btn cosmic-btn btn-lg">Get Your Custom AI Models</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison Gallery Section -->
+<section class="comparison-gallery section-padding">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="section-title">See the Difference</h2>
+                <p class="lead mb-5">Our advanced AI technology creates stunning, lifelike images that rival professional photography</p>
+            </div>
+        </div>
+        
+        <!-- Comparison Pairs -->
+        <div class="comparison-container">
+            {% for i in range(real_vs_generated.real|length) %}
+                {% if i < real_vs_generated.generated|length %}
+                <div class="comparison-pair">
+                    <div class="comparison-item">
+                        <img src="{{ real_vs_generated.real[i] }}" alt="Real photo" class="img-fluid">
+                        <div class="comparison-label">Real Photo</div>
+                    </div>
+                    
+                    <div class="comparison-divider">
+                        <span>VS</span>
+                    </div>
+                    
+                    <div class="comparison-item">
+                        <img src="{{ real_vs_generated.generated[i] }}" alt="AI-generated photo" class="img-fluid">
+                        <div class="comparison-label">AI-Generated</div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+        <!-- Additional Real Photos -->
+        <div class="row mt-5 mb-5">
+            <div class="col-12 text-center">
+                <h2 class="section-title">More Real Photos</h2>
+                <p class="lead mb-4">Authentic photographs of real people</p>
+            </div>
+        </div>
+        
+        <div class="gallery-grid">
+            {% for image_url in real_vs_generated.real %}
+            <div class="gallery-item">
+                <img src="{{ image_url }}" alt="Real photo" class="img-fluid">
+                <div class="gallery-caption">
+                    <span class="badge bg-primary">Real</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Additional AI-Generated Photos -->
+        <div class="row mt-5 mb-5">
+            <div class="col-12 text-center">
+                <h2 class="section-title">More AI-Generated Photos</h2>
+                <p class="lead mb-4">Photos created by our advanced AI technology</p>
+            </div>
+        </div>
+        
+        <div class="gallery-grid">
+            {% for image_url in real_vs_generated.generated %}
+            <div class="gallery-item">
+                <img src="{{ image_url }}" alt="AI-generated photo" class="img-fluid">
+                <div class="gallery-caption">
+                    <span class="badge bg-success">AI-Generated</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta section-padding" style="background: linear-gradient(rgba(10, 14, 23, 0.9), rgba(26, 42, 74, 0.9)), url('https://i.postimg.cc/JhGBPsbn/image-2025-06-27-T193126-695.png'); background-size: cover; background-position: center;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="glow-text">Ready to Create Your Own AI Models?</h2>
+                <p class="lead mb-4">Get started with TrueModel today and revolutionize your visual content.</p>
+                <a href="{{ url_for('contact') }}" class="btn cosmic-btn btn-lg">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

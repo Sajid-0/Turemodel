@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Real vs Generated Photos - TrueModel{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<section class="page-header bg-primary text-white py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>Real vs AI-Generated Photos</h1>
+                <p class="lead">See the incredible quality of our AI-generated images compared to real photos</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison Section -->
+<section class="comparison-section section-padding">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-12 text-center">
+                <h2 class="mb-4">Can You Tell the Difference?</h2>
+                <p class="lead">Our AI-generated images are so realistic, they're often indistinguishable from real photographs. See for yourself.</p>
+            </div>
+        </div>
+        
+        <!-- Real Photos -->
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <div class="comparison-container">
+                    <h3 class="comparison-title">Real Photos</h3>
+                    <div class="row">
+                        {% for image in photos.real %}
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="gallery-item">
+                                <img src="{{ image }}" alt="Real Photo {{ loop.index }}" class="img-fluid">
+                                <div class="gallery-caption">
+                                    <p>Real Photo {{ loop.index }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Generated Photos -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="comparison-container">
+                    <h3 class="comparison-title">AI-Generated Photos</h3>
+                    <div class="row">
+                        {% for image in photos.generated %}
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="gallery-item">
+                                <img src="{{ image }}" alt="AI-Generated Photo {{ loop.index }}" class="img-fluid">
+                                <div class="gallery-caption">
+                                    <p>AI-Generated Photo {{ loop.index }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Side-by-Side Comparisons -->
+        <div class="row mt-5">
+            <div class="col-md-12 text-center mb-5">
+                <h2>Side-by-Side Comparison</h2>
+                <p class="lead">See our AI-generated photos next to real ones</p>
+            </div>
+            
+            {% for i in range(min(photos.real|length, photos.generated|length)) %}
+            <div class="col-lg-6 mb-4">
+                <div class="comparison-container">
+                    <div class="comparison-images">
+                        <div class="comparison-image">
+                            <img src="{{ photos.real[i] }}" alt="Real Photo {{ i+1 }}" class="img-fluid">
+                            <div class="image-label">Real Photo</div>
+                        </div>
+                        <div class="comparison-image">
+                            <img src="{{ photos.generated[i] }}" alt="AI-Generated Photo {{ i+1 }}" class="img-fluid">
+                            <div class="image-label">AI-Generated Photo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta bg-light section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2>Ready to Create Your Own Photorealistic Images?</h2>
+                <p class="lead mb-4">Get started today and see how our hyper-realistic AI-generated images can elevate your brand.</p>
+                <div class="cta-buttons">
+                    <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg me-3">Contact Us</a>
+                    <a href="{{ url_for('pricing') }}" class="btn btn-outline-primary btn-lg">View Pricing</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
