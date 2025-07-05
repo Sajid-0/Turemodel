@@ -7,14 +7,32 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'truemodel_secret_key'
 
-# Configure Flask-Mail
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER', 'joy.apee@gmail.com')
-app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')  # Must be set as environment variable
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('EMAIL_USER', 'joy.apee@gmail.com')
+# Configure Flask-Mail - Multiple options
+# Option 1: Gmail (more reliable, requires app password)
+# Option 2: Hostinger (domain email, but may have authentication issues)
+
+EMAIL_PROVIDER = os.environ.get('EMAIL_PROVIDER', 'gmail')  # 'gmail' or 'hostinger'
+
+if EMAIL_PROVIDER == 'gmail':
+    # Gmail configuration (requires app password)
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USE_SSL'] = False
+    app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER', 'truemodel.ai.contact@gmail.com')
+    app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')  # Gmail app password
+    app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('EMAIL_USER', 'truemodel.ai.contact@gmail.com')
+    print("📧 Using Gmail SMTP configuration")
+else:
+    # Hostinger configuration - WORKING SETTINGS FROM TEST
+    app.config['MAIL_SERVER'] = 'smtp.hostinger.com'
+    app.config['MAIL_PORT'] = 465  # Use SSL port 465 (working from test)
+    app.config['MAIL_USE_TLS'] = False  # Disable TLS when using SSL
+    app.config['MAIL_USE_SSL'] = True   # Enable SSL for port 465
+    app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER', 'info@truemodel.pro')  # Correct domain
+    app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')  # Hostinger email password
+    app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('EMAIL_USER', 'info@truemodel.pro')  # Correct domain
+    print("📧 Using Hostinger SMTP configuration (SSL port 465)")
 
 # Only initialize mail if password is configured
 if app.config['MAIL_PASSWORD']:
@@ -183,7 +201,7 @@ custom_pricing = [
 social_links = {
     'whatsapp': 'https://wa.me/your_number_here',
     'linkedin': 'https://linkedin.com/in/your_profile',
-    'gmail': 'mailto:joy.apee@gmail.com',
+    'gmail': 'mailto:info@truemodel.pro',  # Updated to correct domain
     'instagram': 'https://www.instagram.com/truemodelofficial/'
 }
 
@@ -261,7 +279,7 @@ def contact():
             # Send email only if mail is configured
             if mail:
                 try:
-                    recipient = "joy.apee@gmail.com"
+                    recipient = "info@truemodel.pro"  # Updated to correct domain
                     msg = Message(
                         subject=f"TrueModel Contact Form: {subject}",
                         recipients=[recipient],
