@@ -4,7 +4,7 @@
 
 {% block content %}
 <!-- Header Section -->
-<section class="page-header bg-primary text-white py-5 mb-5" style="background: linear-gradient(rgba(10, 14, 23, 0.8), rgba(26, 42, 74, 0.9)), url('https://i.postimg.cc/JhGBPsbn/image-2025-06-27-T193126-695.png'); background-size: cover; background-position: center;">
+<section class="page-header bg-primary text-white py-5 mb-5" style="background: linear-gradient(rgba(10, 14, 23, 0.8), rgba(26, 42, 74, 0.9)), url('{{ url_for('hero_image') }}'); background-size: cover; background-position: center;">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
@@ -61,8 +61,8 @@
         
         <div class="gallery-grid">
             {% for image_url in real_vs_generated.real %}
-            <div class="gallery-item">
-                <img src="{{ image_url }}" alt="Real photo" class="img-fluid">
+            <div class="gallery-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view full size - Real photo">
+                <img src="{{ image_url }}" alt="Real photo {{ loop.index }}" class="img-fluid">
                 <div class="gallery-caption">
                     <span class="badge bg-primary">Real</span>
                 </div>
@@ -80,8 +80,8 @@
         
         <div class="gallery-grid">
             {% for image_url in real_vs_generated.generated %}
-            <div class="gallery-item">
-                <img src="{{ image_url }}" alt="AI-generated photo" class="img-fluid">
+            <div class="gallery-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view full size - AI-generated photo">
+                <img src="{{ image_url }}" alt="AI-generated photo {{ loop.index }}" class="img-fluid">
                 <div class="gallery-caption">
                     <span class="badge bg-success">AI-Generated</span>
                 </div>
@@ -92,7 +92,7 @@
 </section>
 
 <!-- CTA Section -->
-<section class="cta section-padding" style="background: linear-gradient(rgba(10, 14, 23, 0.9), rgba(26, 42, 74, 0.9)), url('https://i.postimg.cc/JhGBPsbn/image-2025-06-27-T193126-695.png'); background-size: cover; background-position: center;">
+<section class="cta section-padding" style="background: linear-gradient(rgba(10, 14, 23, 0.9), rgba(26, 42, 74, 0.9)), url('{{ url_for('hero_image') }}'); background-size: cover; background-position: center;">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">

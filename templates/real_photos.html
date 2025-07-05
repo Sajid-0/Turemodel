@@ -33,10 +33,10 @@
                     <div class="row">
                         {% for image in photos.real %}
                         <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="gallery-item">
+                            <div class="gallery-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view full size - Real photo">
                                 <img src="{{ image }}" alt="Real Photo {{ loop.index }}" class="img-fluid">
                                 <div class="gallery-caption">
-                                    <p>Real Photo {{ loop.index }}</p>
+                                    <p><i class="fas fa-camera me-2"></i>Real Photo {{ loop.index }}</p>
                                 </div>
                             </div>
                         </div>
@@ -54,10 +54,10 @@
                     <div class="row">
                         {% for image in photos.generated %}
                         <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="gallery-item">
+                            <div class="gallery-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view full size - AI-generated photo">
                                 <img src="{{ image }}" alt="AI-Generated Photo {{ loop.index }}" class="img-fluid">
                                 <div class="gallery-caption">
-                                    <p>AI-Generated Photo {{ loop.index }}</p>
+                                    <p><i class="fas fa-robot me-2"></i>AI-Generated Photo {{ loop.index }}</p>
                                 </div>
                             </div>
                         </div>

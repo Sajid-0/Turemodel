@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, abort
 from flask_mail import Mail, Message
 import os
 import sqlite3
@@ -11,10 +11,18 @@ app.secret_key = 'truemodel_secret_key'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER', 'joy.apee@gmail.com')
-app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS', 'your_email_password')
+app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')  # Must be set as environment variable
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('EMAIL_USER', 'joy.apee@gmail.com')
-mail = Mail(app)
+
+# Only initialize mail if password is configured
+if app.config['MAIL_PASSWORD']:
+    mail = Mail(app)
+    print("✅ Flask-Mail configured successfully")
+else:
+    mail = None
+    print("❌ EMAIL_PASS environment variable not set. Email functionality disabled.")
 
 # Database setup
 
@@ -60,44 +68,46 @@ virtual_models = {
         'name': 'AVA',
         'description': 'Our elegant and versatile virtual model for various fashion and lifestyle contexts.',
         'images': [
-            'https://i.postimg.cc/t4tFBqqx/image-0-16.png',
-            'https://i.postimg.cc/NfX6r8Zb/image-0-18.png',
-            'https://i.postimg.cc/DwKqQJTh/image-0-4.png',
-            'https://i.postimg.cc/pdWz7wr1/image-0-7.png'
+            '/images/Ava/image_0 (16).webp',
+            '/images/Ava/image_0 (18).webp',
+            '/images/Ava/image_0 (4).webp',
+            '/images/Ava/image_0.webp',
+            '/images/Ava/image_0 (13).webp'
         ]
     },
     'busty': {
         'name': 'Busty',
         'description': 'A confident and striking virtual model ideal for bold fashion statements and campaigns.',
         'images': [
-            'https://i.postimg.cc/XqKQdTvK/image-13.png',
-            'https://i.postimg.cc/PJnSLtdr/image-16.png',
-            'https://i.postimg.cc/bNTmJcWp/image-17.png',
-            'https://i.postimg.cc/fWYHG0v3/image-4.png',
-            'https://i.postimg.cc/vHMPbHP0/image-6.png'
+            '/images/Busty/image_13.webp',
+            '/images/Busty/image_16.webp',
+            '/images/Busty/image_17.webp',
+            '/images/Busty/image_4.webp',
+            '/images/Busty/image_6.webp'
         ]
     },
     'mary': {
         'name': 'Mary',
         'description': 'A natural and approachable virtual model perfect for casual and relatable brand imagery.',
         'images': [
-            'https://i.postimg.cc/zDwjtYJK/prompt-16-image-0-seed-1326810014.png',
-            'https://i.postimg.cc/Ghcj6g2N/prompt-26-image-0-seed-36969806.png',
-            'https://i.postimg.cc/02cCvGKN/prompt-34-image-0-seed-675966102.png',
-            'https://i.postimg.cc/zBKjY9Tm/prompt-3-image-0-seed-1304252368.png',
-            'https://i.postimg.cc/D0hcvBcS/prompt-3-image-0-seed-1822999138.png',
-            'https://i.postimg.cc/BvdgyqLc/prompt-3-image-0-seed-344006658.png',
-            'https://i.postimg.cc/PJMQPY62/prompt-7-image-0-seed-1722280745.png'
+            '/images/Mary/prompt_16_image_0_seed_1326810014.webp',
+            '/images/Mary/prompt_26_image_0_seed_36969806.webp',
+            '/images/Mary/prompt_34_image_0_seed_675966102.webp',
+            '/images/Mary/prompt_3_image_0_seed_1304252368.webp',
+            '/images/Mary/prompt_3_image_0_seed_1822999138.webp',
+            '/images/Mary/prompt_3_image_0_seed_344006658.webp',
+            '/images/Mary/prompt_6_image_0_seed_694012188.webp',
+            '/images/Mary/prompt_7_image_0_seed_1722280745.webp'
         ]
     },
     'anissa': {
         'name': 'Anissa',
         'description': 'An expressive and dynamic virtual model suited for contemporary and edgy brand aesthetics.',
         'images': [
-            'https://i.postimg.cc/Bnmbb5d7/image-10.png',
-            'https://i.postimg.cc/mDHgmvhK/image-23-1.png',
-            'https://i.postimg.cc/DzmZXJhv/image-50.png',
-            'https://i.postimg.cc/DzDzdvfq/image-70.png'
+            '/images/Annisa/image_10.webp',
+            '/images/Annisa/image_23 (1).webp',
+            '/images/Annisa/image_50.webp',
+            '/images/Annisa/image_70.webp'
         ]
     }
 }
@@ -112,49 +122,50 @@ real_vs_generated = {
         'https://i.postimg.cc/282gtZzQ/ecbfa719-0b52-4892-a8a7-b79a58e64bed.jpg'
     ],
     'generated': [
-        'https://i.postimg.cc/rmk4xzRb/prompt-11-image-0-seed-234017599.png',
-        'https://i.postimg.cc/Gh7vVc68/prompt-5-image-0-seed-740846037.png',
-        'https://i.postimg.cc/g218cgzG/prompt-8-image-0-seed-237859241.png',
-        'https://i.postimg.cc/pLmKtwt0/prompt-8-image-0-seed-579869548.png'
+        '/images/Lollipop/prompt_11_image_0_seed_234017599.webp',
+        '/images/Lollipop/prompt_5_image_0_seed_740846037.webp',
+        '/images/Lollipop/prompt_7_image_0_seed_382826355.webp',
+        '/images/Lollipop/prompt_8_image_0_seed_237859241.webp',
+        '/images/Lollipop/prompt_8_image_0_seed_579869548.webp'
     ]
 }
 
 # Define other niches
 other_niches = [
-    'https://i.postimg.cc/WpyKVPBK/image-0-1.png',
-    'https://i.postimg.cc/L6ZW6bRs/image-0-61.png',
-    'https://i.postimg.cc/Vs38RMkd/image-14.png',
-    'https://i.postimg.cc/GmR10CYR/image-16-1.png',
-    'https://i.postimg.cc/TPPFGY3z/image-17-1.png',
-    'https://i.postimg.cc/d0SX0P7L/image-23.png',
-    'https://i.postimg.cc/4xkSKQNQ/image-3.png',
-    'https://i.postimg.cc/KjCsDn7F/image-3-1.png',
-    'https://i.postimg.cc/mDznzXMV/image-41.png',
-    'https://i.postimg.cc/pTw6DfJv/image-46.png',
-    'https://i.postimg.cc/s23HmfWB/image-6-1.png',
-    'https://i.postimg.cc/c6qXndZL/image-6-2.png',
-    'https://i.postimg.cc/7Y0yQ65X/image-9.png'
+    '/images/OtherNiches/image_0 (1).webp',
+    '/images/OtherNiches/image_0 (61).webp',
+    '/images/OtherNiches/image_14.webp',
+    '/images/OtherNiches/image_16 (1).webp',
+    '/images/OtherNiches/image_17 (1).webp',
+    '/images/OtherNiches/image_23.webp',
+    '/images/OtherNiches/image_3.webp',
+    '/images/OtherNiches/image_3 (1).webp',
+    '/images/OtherNiches/image_41.webp',
+    '/images/OtherNiches/image_46.webp',
+    '/images/OtherNiches/image_6 (1).webp',
+    '/images/OtherNiches/image_6 (2).webp',
+    '/images/OtherNiches/image_9.webp'
 ]
 
 # Define pricing plans
 pricing_plans = {
     'basic': {
         'name': 'Basic',
-        'price': '$75 USD',
+        'price': '$105 USD',
         'images': '15 high-quality images',
         'revisions': '2 revisions per image',
         'delivery': '1-3 days'
     },
     'standard': {
         'name': 'Standard',
-        'price': '$145 USD',
+        'price': '$199 USD',
         'images': '30 high-quality images',
         'revisions': '3 revisions per image',
         'delivery': '3-5 days'
     },
     'premium': {
         'name': 'Premium',
-        'price': '$275 USD',
+        'price': '$385 USD',
         'images': '60 high-quality images',
         'revisions': '3 revisions per image',
         'delivery': '5-7 days'
@@ -163,9 +174,9 @@ pricing_plans = {
 
 # Define custom pricing plans
 custom_pricing = [
-    {'range': '200-499 Images', 'price': 'starting at $4.30 per image', 'delivery': '7-12 business days', 'revisions': '3 revisions per image'},
-    {'range': '500-999 Images', 'price': 'starting at $4.00 per image', 'delivery': '10-15 business days', 'revisions': '3 revisions per image'},
-    {'range': '1000+ Images', 'price': 'starting at $3.85 per image', 'delivery': '15-25 business days', 'revisions': '3 revisions per image'}
+    {'range': '200-499 Images', 'price': 'starting at $6.00 per image', 'delivery': '7-12 business days', 'revisions': '3 revisions per image'},
+    {'range': '500-999 Images', 'price': 'starting at $5.60 per image', 'delivery': '10-15 business days', 'revisions': '3 revisions per image'},
+    {'range': '1000+ Images', 'price': 'starting at $5.40 per image', 'delivery': '15-25 business days', 'revisions': '3 revisions per image'}
 ]
 
 # Define social media links
@@ -213,7 +224,7 @@ def real_photos_page():
 @app.route('/other-niches')
 def other_niches_page():
     return render_template('other_niches.html', 
-                           other_niches=other_niches,
+                           photos=other_niches,
                            social_links=social_links)
 
 @app.route('/pricing')
@@ -247,29 +258,32 @@ def contact():
             conn.commit()
             conn.close()
             
-            # Send email
-            try:
-                recipient = "joy.apee@gmail.com"
-                msg = Message(
-                    subject=f"TrueModel Contact Form: {subject}",
-                    recipients=[recipient],
-                    body=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}\n\nProject Requirements:\n{requirements}"
-                )
-                mail.send(msg)
-                
-                # Send confirmation email to user
-                user_msg = Message(
-                    subject="Thank you for contacting TrueModel",
-                    recipients=[email],
-                    body=f"Dear {name},\n\nThank you for reaching out to us. We have received your message and will get back to you shortly.\n\nBest regards,\nThe TrueModel Team"
-                )
-                mail.send(user_msg)
-                
-                flash('Thank you! Your message has been sent successfully.', 'success')
-            except Exception as e:
-                # If email fails, still save to database but inform admin
-                print(f"Email sending failed: {e}")
-                flash('Your message was saved but email notification failed. We will still process your request.', 'warning')
+            # Send email only if mail is configured
+            if mail:
+                try:
+                    recipient = "joy.apee@gmail.com"
+                    msg = Message(
+                        subject=f"TrueModel Contact Form: {subject}",
+                        recipients=[recipient],
+                        body=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}\n\nProject Requirements:\n{requirements}"
+                    )
+                    mail.send(msg)
+                    
+                    # Send confirmation email to user
+                    user_msg = Message(
+                        subject="Thank you for contacting TrueModel",
+                        recipients=[email],
+                        body=f"Dear {name},\n\nThank you for reaching out to us. We have received your message and will get back to you shortly.\n\nBest regards,\nThe TrueModel Team"
+                    )
+                    mail.send(user_msg)
+                    
+                    flash('Thank you! Your message has been sent successfully.', 'success')
+                except Exception as e:
+                    # If email fails, still save to database but inform admin
+                    print(f"Email sending failed: {e}")
+                    flash('Your message was saved but email notification failed. We will still process your request.', 'warning')
+            else:
+                flash('Your message was saved successfully. Email notifications are currently disabled.', 'info')
                 
         except Exception as e:
             print(f"Database error: {e}")
@@ -299,8 +313,42 @@ def virtual_model_detail(model_id):
 
 # Add an alias route for 'other_niches'
 @app.route('/other-niches-alt')
-def other_niches():
+def other_niches_alt():
     return redirect(url_for('other_niches_page'))
+
+# Route to serve images
+@app.route('/images/<path:filename>')
+def serve_image(filename):
+    try:
+        # Check if file exists
+        image_path = os.path.join('Images', filename)
+        if not os.path.exists(image_path):
+            abort(404)
+        
+        response = send_from_directory('Images', filename)
+        # Add cache headers for better performance
+        response.cache_control.max_age = 86400  # Cache for 1 day
+        response.cache_control.public = True
+        return response
+    except Exception as e:
+        print(f"Error serving image {filename}: {e}")
+        abort(404)
+
+# Route to serve hero image
+@app.route('/hero-image')
+def hero_image():
+    try:
+        hero_path = os.path.join('Images', 'hero.webp')
+        if not os.path.exists(hero_path):
+            abort(404)
+        
+        response = send_from_directory('Images', 'hero.webp')
+        response.cache_control.max_age = 86400  # Cache for 1 day
+        response.cache_control.public = True
+        return response
+    except Exception as e:
+        print(f"Error serving hero image: {e}")
+        abort(404)
 
 if __name__ == '__main__':
     app.run(debug=False)

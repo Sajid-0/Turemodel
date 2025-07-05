@@ -21,7 +21,7 @@
         <div class="row">
             {% for model_id, model in virtual_models.items() %}
             <div class="col-lg-6 col-md-6 mb-5">
-                <div class="model-card">
+                <div class="model-card" data-bs-toggle="tooltip" data-bs-placement="top" title="Click image to enlarge or view all images">
                     <img src="{{ model.images[0] }}" alt="{{ model.name }}" class="img-fluid">
                     <div class="model-card-overlay">
                         <h3>{{ model.name }}</h3>

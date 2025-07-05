@@ -359,14 +359,54 @@ a:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     transition: var(--transition);
     cursor: pointer;
-    aspect-ratio: 3/4;
+    aspect-ratio: 3/5;
     height: auto;
+    min-height: 450px;
+}
+
+.gallery-item::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.gallery-item::after {
+    content: '🔍';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: white;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 11;
+    pointer-events: none;
+}
+
+.gallery-item:hover::before,
+.gallery-item:hover::after {
+    opacity: 1;
 }
 
 .gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center top;
     transition: transform 0.5s ease;
 }
 
@@ -431,13 +471,52 @@ a:hover {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    height: 400px;
+    height: 500px;
+}
+
+.comparison-item::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.comparison-item::after {
+    content: '🔍';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: white;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 11;
+    pointer-events: none;
+}
+
+.comparison-item:hover::before,
+.comparison-item:hover::after {
+    opacity: 1;
 }
 
 .comparison-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center top;
     transition: transform 0.5s ease;
 }
 
@@ -608,7 +687,7 @@ a:hover {
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    height: 500px;
+    height: 600px;
     transition: all 0.4s ease;
     cursor: pointer;
 }
@@ -617,7 +696,46 @@ a:hover {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center top;
     transition: all 0.5s ease;
+}
+
+.model-card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.model-card::after {
+    content: '🔍';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: white;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 11;
+    pointer-events: none;
+}
+
+.model-card:hover::before,
+.model-card:hover::after {
+    opacity: 1;
 }
 
 .model-card:hover img {
@@ -955,8 +1073,9 @@ a:hover {
 
 .comparison-image img {
     width: 100%;
-    height: 300px;
+    height: 400px;
     object-fit: cover;
+    object-position: center top;
 }
 
 .image-label {
@@ -1224,7 +1343,46 @@ main {
 
 /* Text on light backgrounds */
 .bg-light p.lead,
-.section.bg-light .card-text {
-    color: #444a60;
+.bg-white p.lead {
+    color: #444a60; 
     font-weight: 400;
+}
+
+/* Responsive improvements for images */
+@media (max-width: 768px) {
+    .gallery-item {
+        min-height: 350px;
+        aspect-ratio: 3/4.5;
+    }
+    
+    .model-card {
+        height: 450px;
+    }
+    
+    .comparison-item {
+        height: 350px;
+    }
+    
+    .comparison-image img {
+        height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-item {
+        min-height: 300px;
+        aspect-ratio: 3/4;
+    }
+    
+    .model-card {
+        height: 400px;
+    }
+    
+    .comparison-item {
+        height: 300px;
+    }
+    
+    .comparison-image img {
+        height: 250px;
+    }
 }

@@ -30,12 +30,12 @@
         
         <div class="gallery-grid">
             {% for image in model.images %}
-            <div class="gallery-item">
+            <div class="gallery-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view full size">
                 <img src="{{ image }}" alt="{{ model.name }} Image {{ loop.index }}" class="img-fluid">
                 <div class="gallery-overlay">
                     <div class="gallery-info">
                         <h5>{{ model.name }} - Image {{ loop.index }}</h5>
-                        <p>Click to enlarge</p>
+                        <p><i class="fas fa-search-plus me-2"></i>Click to enlarge</p>
                     </div>
                 </div>
             </div>

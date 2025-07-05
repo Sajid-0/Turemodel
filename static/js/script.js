@@ -20,50 +20,76 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Enable image gallery functionality
-    const galleryItems = document.querySelectorAll('.gallery-item img');
-    galleryItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const src = this.getAttribute('src');
-            const alt = this.getAttribute('alt');
-            
-            // Check if modal exists, if not create it
-            let modal = document.getElementById('imageModal');
-            if (!modal) {
-                modal = document.createElement('div');
+    function initializeImageGallery() {
+        const galleryItems = document.querySelectorAll('.gallery-item img, .model-card img, .comparison-item img');
+        
+        galleryItems.forEach(item => {
+            // Add cursor pointer and click event
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const src = this.getAttribute('src');
+                const alt = this.getAttribute('alt') || 'Image Preview';
+                
+                // Remove existing modal if it exists
+                let existingModal = document.getElementById('imageModal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+                
+                // Create new modal
+                const modal = document.createElement('div');
                 modal.className = 'modal fade';
                 modal.id = 'imageModal';
                 modal.tabIndex = '-1';
                 modal.setAttribute('aria-hidden', 'true');
+                modal.setAttribute('aria-labelledby', 'imageModalLabel');
                 
                 modal.innerHTML = `
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title"></h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-dialog modal-xl modal-dialog-centered">
+                        <div class="modal-content bg-dark">
+                            <div class="modal-header border-0">
+                                <h5 class="modal-title text-white" id="imageModalLabel">${alt}</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body text-center">
-                                <img src="" class="img-fluid gallery-modal-img" alt="">
+                            <div class="modal-body text-center p-2">
+                                <img src="${src}" class="img-fluid gallery-modal-img" alt="${alt}" style="max-height: 80vh; width: auto;">
+                                <div class="mt-3">
+                                    <small class="text-muted">Click outside the image or press ESC to close</small>
+                                </div>
                             </div>
                         </div>
                     </div>
                 `;
                 
                 document.body.appendChild(modal);
-            }
-            
-            // Set the image source and title
-            const modalImg = modal.querySelector('.gallery-modal-img');
-            const modalTitle = modal.querySelector('.modal-title');
-            
-            modalImg.src = src;
-            modalTitle.textContent = alt || 'Image Preview';
-            
-            // Show the modal
-            const modalInstance = new bootstrap.Modal(modal);
-            modalInstance.show();
+                
+                // Show the modal
+                const modalInstance = new bootstrap.Modal(modal, {
+                    keyboard: true,
+                    backdrop: true
+                });
+                modalInstance.show();
+                
+                // Remove modal from DOM when hidden
+                modal.addEventListener('hidden.bs.modal', function () {
+                    modal.remove();
+                });
+                
+                // Add click to close functionality
+                modal.querySelector('.modal-body').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        modalInstance.hide();
+                    }
+                });
+            });
         });
-    });
+    }
+    
+    // Initialize gallery on page load
+    initializeImageGallery();
     
     // Form validation
     const contactForm = document.getElementById('contactForm');

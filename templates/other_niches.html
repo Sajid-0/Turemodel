@@ -28,10 +28,10 @@
         <div class="row">
             {% for image in photos %}
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="gallery-item">
+                <div class="gallery-item" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to view full size">
                     <img src="{{ image }}" alt="Niche Example {{ loop.index }}" class="img-fluid">
                     <div class="gallery-caption">
-                        <p>Click to view full size</p>
+                        <p><i class="fas fa-search-plus me-2"></i>Click to view full size</p>
                     </div>
                 </div>
             </div>
